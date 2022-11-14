@@ -38,18 +38,21 @@
         <padding>
             <Insets bottom="30" left="30" right="30" top="30"/>
         </padding>
-        <Label style="-fx-border-color:black; -fx-border-width:2; -fx-border-style:dotted; -fx-padding:20;"
+        <Label style="-fx-border-color:black; -fx-border-width:2; -fx-border-style:dotted;
+        -fx-padding:20;"
                fx:id="infoNumber"
                text="Número entre XXX e XXX"/>
-        <Label style="-fx-border-color:black; -fx-border-width:2; -fx-border-style:dotted; -fx-padding:20;"
+        <Label style="-fx-border-color:black; -fx-border-width:2; -fx-border-style:dotted;
+        -fx-padding:20;"
                fx:id="infoMaxAttempts" text="Tes un total de XXX intentos"/>
-        <Label style="-fx-border-color:black; -fx-border-width:2; -fx-border-style:dotted; -fx-padding:20;" fx:id="infoAttermpts"
+        <Label style="-fx-border-color:black; -fx-border-width:2; -fx-border-style:dotted;
+        -fx-padding:20;" fx:id="infoAttempts"
                text="Quédanche XXX intentos"/>
     </HBox>
     <HBox spacing="35" alignment="CENTER">
         <Label text="Número: " />
         <TextField fx:id="tfNumero" />
-        <Button text="Probar" onAction="#onProbarButtonClick" />
+        <Button fx:id="botonProbar" text="Probar" onAction="#onProbarButtonClick" />
     </HBox>
     <HBox spacing="35" alignment="CENTER">
         <Label fx:id="feedback" style="-fx-font-size:20px;"/>
