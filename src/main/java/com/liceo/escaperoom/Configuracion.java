@@ -31,9 +31,8 @@ public class Configuracion {
     }
 
     void restarIntento() throws AttemptsException {
-        if (this.attempts > 0){
-            this.attempts --;
-        } else {
+        this.attempts --;
+        if (this.attempts < 0){
             throw new AttemptsException("Número de intentos superado");
         }
     }
@@ -56,6 +55,10 @@ public class Configuracion {
 
     public int getMaxAttempts() {
         return maxAttempts;
+    }
+
+    public String textAttempts(){
+        return String.valueOf(this.maxAttempts - this.attempts);
     }
 
     @Override

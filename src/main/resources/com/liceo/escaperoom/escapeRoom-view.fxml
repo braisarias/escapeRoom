@@ -52,7 +52,7 @@
     <HBox spacing="35" alignment="CENTER">
         <Label text="Número: " />
         <TextField fx:id="tfNumero" />
-        <Button fx:id="botonProbar" text="Probar" onAction="#onProbarButtonClick" />
+        <Button fx:id="botonProbar" text="Probar" onAction="#onProbarButtonClick" defaultButton="true" />
     </HBox>
     <HBox spacing="35" alignment="CENTER">
         <Label fx:id="feedback" style="-fx-font-size:20px;"/>
