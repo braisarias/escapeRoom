@@ -21,10 +21,7 @@ public class EscapeRoomApp extends Application {
         stage.show();
 
         this.controller = fxmlLoader.getController();
-        this.controller.generateConfiguration();
-        this.controller.refreshInfo();
-        System.out.println(controller.getConf());
-
+        this.controller.inicializaPartida();
     }
 
     public static void main(String[] args) {

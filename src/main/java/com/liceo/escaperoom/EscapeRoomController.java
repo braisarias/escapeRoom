@@ -96,4 +96,16 @@ public class EscapeRoomController {
             return;
         }
     }
+
+    public void inicializaPartida(){
+        generateConfiguration();
+        refreshInfo();
+        this.botonProbar.setDisable(false);
+        this.feedback.setText("");
+        System.out.println("Partida inicializada: " + this.conf);
+    }
+    public void onButtonRestartClick (ActionEvent actionEvent){
+        inicializaPartida();
+    }
+
 }

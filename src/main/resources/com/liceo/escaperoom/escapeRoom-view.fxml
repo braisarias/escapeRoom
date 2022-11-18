@@ -57,4 +57,7 @@
     <HBox spacing="35" alignment="CENTER">
         <Label fx:id="feedback" style="-fx-font-size:20px;"/>
     </HBox>
+    <HBox spacing="35" alignment="CENTER">
+        <Button fx:id="botonRestart" text="Reiniciar" onAction="#onButtonRestartClick" />
+    </HBox>
 </VBox>
