@@ -15,7 +15,7 @@ public class EscapeRoomApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(EscapeRoomApp.class.getResource("escapeRoom-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1024, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
         stage.setTitle("EscapeRoom!");
         stage.setScene(scene);
         stage.show();

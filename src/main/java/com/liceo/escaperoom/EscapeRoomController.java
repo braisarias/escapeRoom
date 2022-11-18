@@ -23,6 +23,7 @@ public class EscapeRoomController {
 
     @FXML
     private Button botonProbar;
+    private boolean partidaGanada=false;
 
 
     private void generateConfiguration(){
@@ -39,16 +40,17 @@ public class EscapeRoomController {
         try {
             int numero = Integer.parseInt(tfNumero.getText());
             System.out.println("boton probar: " + numero);
-            this.conf.restarIntento();
-            setTextFeedback(numero);
-            setFeedbackColor(numero);
             if (numero == this.conf.getNumber()){
+                this.partidaGanada = true;
                 botonProbar.setDisable(true);
             }
+            setFeedbackColor(numero);
+            this.conf.restarIntento();
+            setTextFeedback(numero);
         }catch (NumberFormatException e) {
             feedback.setText("PON UN NÚMERO!!!");
         } catch (AttemptsException e) {
-            feedback.setText("NON PODEMOS SEGUIR");
+            setTextFeedback();
             botonProbar.setDisable(true);
         } finally {
             this.refreshInfo();
@@ -57,6 +59,13 @@ public class EscapeRoomController {
 
     }
 
+    private  void setTextFeedback(){
+        if (this.partidaGanada){
+            feedback.setText("ACERTACHE EN " + this.conf.textAttempts() + " INTENTOS!!!");
+        } else {
+            feedback.setText("NON PODEMOS SEGUIR");
+        }
+    }
     private void setTextFeedback(int numero) {
         if (this.conf.getNumber() > numero){
             this.feedback.setText("O NÚMERO É MAIOR");
@@ -94,6 +103,7 @@ public class EscapeRoomController {
     }
 
     public void inicializaPartida(){
+        this.partidaGanada = false;
         generateConfiguration();
         refreshInfo();
         this.botonProbar.setDisable(false);

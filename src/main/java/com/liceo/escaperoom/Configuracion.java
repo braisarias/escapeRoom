@@ -32,7 +32,7 @@ public class Configuracion {
 
     void restarIntento() throws AttemptsException {
         this.attempts --;
-        if (this.attempts < 0){
+        if (this.attempts <= 0){
             throw new AttemptsException("Número de intentos superado");
         }
     }
