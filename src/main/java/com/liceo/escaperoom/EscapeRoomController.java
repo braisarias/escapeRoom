@@ -25,18 +25,14 @@ public class EscapeRoomController {
     private Button botonProbar;
 
 
-    public void generateConfiguration(){
+    private void generateConfiguration(){
         this.conf = new Configuracion();
     }
 
-    public void refreshInfo(){
+    private void refreshInfo(){
         infoAttempts.setText("Quédanche " + this.conf.getAttempts() + " intentos");
         infoMaxAttempts.setText("Tes un total de " + this.conf.getMaxAttempts() + " intentos");
         infoNumber.setText("Número entre " + this.conf.getMinNumber() + " e " + this.conf.getMaxNumber());
-    }
-
-    public Configuracion getConf() {
-        return conf;
     }
 
     public void onProbarButtonClick(ActionEvent actionEvent) {
