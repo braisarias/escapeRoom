@@ -7,6 +7,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
+
 public class EscapeRoomController {
     @FXML
     private Label feedback;
@@ -25,30 +33,40 @@ public class EscapeRoomController {
     private Button botonProbar;
     private boolean partidaGanada=false;
 
+    private BufferedWriter bwLog;
 
     private void generateConfiguration(){
         this.conf = new Configuracion();
     }
 
     private void refreshInfo(){
-        infoAttempts.setText("Quédanche " + this.conf.getAttempts() + " intentos");
-        infoMaxAttempts.setText("Tes un total de " + this.conf.getMaxAttempts() + " intentos");
-        infoNumber.setText("Número entre " + this.conf.getMinNumber() + " e " + this.conf.getMaxNumber());
+        String attempts = "Quédanche " + this.conf.getAttempts() + " intentos";
+        String maxAttempts = "Tes un total de " + this.conf.getMaxAttempts() + " intentos";
+        String number = "Número entre " + this.conf.getMinNumber() + " e " + this.conf.getMaxNumber();
+
+        infoAttempts.setText(attempts);
+        infoMaxAttempts.setText(maxAttempts);
+        infoNumber.setText(number);
+
+        imprimeLog(attempts);
+        imprimeLog(maxAttempts);
+        imprimeLog(number);
     }
 
     public void onProbarButtonClick(ActionEvent actionEvent) {
         try {
             int numero = Integer.parseInt(tfNumero.getText());
-            System.out.println("boton probar: " + numero);
+            imprimeLog("boton probar: " + numero);
             if (numero == this.conf.getNumber()){
                 this.partidaGanada = true;
+                imprimeLog("Partida ganada = true");
                 botonProbar.setDisable(true);
             }
             setFeedbackColor(numero);
             this.conf.restarIntento();
             setTextFeedback(numero);
         }catch (NumberFormatException e) {
-            feedback.setText("PON UN NÚMERO!!!");
+            setTextFeedback("PON UN NÚMERO!!!");
         } catch (AttemptsException e) {
             setTextFeedback();
             botonProbar.setDisable(true);
@@ -60,25 +78,30 @@ public class EscapeRoomController {
     }
 
     private  void setTextFeedback(){
+        String texto = "NON PODEMOS SEGUIR";
         if (this.partidaGanada){
-            feedback.setText("ACERTACHE EN " + this.conf.textAttempts() + " INTENTOS!!!");
-        } else {
-            feedback.setText("NON PODEMOS SEGUIR");
+            texto = "ACERTACHE EN " + this.conf.textAttempts() + " INTENTOS!!!";
         }
+        feedback.setText(texto);
+        imprimeLog("feedback: " + texto);
     }
     private void setTextFeedback(int numero) {
+        String texto = "";
         if (this.conf.getNumber() > numero){
-            this.feedback.setText("O NÚMERO É MAIOR");
-            return;
+            texto = "O NÚMERO É MAIOR";
         }
         if (this.conf.getNumber() == numero){
-            feedback.setText("ACERTACHE EN " + this.conf.textAttempts() + " INTENTOS!!!");
-            return;
+            texto = "ACERTACHE EN " + this.conf.textAttempts() + " INTENTOS!!!";
         }
         if (this.conf.getNumber() < numero){
-            this.feedback.setText("O NÚMERO É MENOR");
-            return;
+            texto = "O NÚMERO É MENOR";
         }
+        this.feedback.setText(texto);
+        imprimeLog("feedback: " + texto);
+    }
+    private void setTextFeedback(String msg){
+        this.feedback.setText(msg);
+        imprimeLog("feedback: " + msg);
     }
 
     private void setFeedbackColor(int n) {
@@ -102,15 +125,28 @@ public class EscapeRoomController {
         }
     }
 
-    public void inicializaPartida(){
+    public void inicializaPartida() throws java.io.IOException{
+        this.bwLog = Files.newBufferedWriter(Paths.get("escapeRooom.log"));
         this.partidaGanada = false;
         generateConfiguration();
         refreshInfo();
         this.botonProbar.setDisable(false);
         this.feedback.setText("");
-        System.out.println("Partida inicializada: " + this.conf);
+        imprimeLog("Partida inicializada: " + this.conf);
     }
-    public void onButtonRestartClick (ActionEvent actionEvent){
+
+    private void imprimeLog(String s) {
+        System.out.println(s);
+        LocalDateTime dt = LocalDateTime.now();
+        try {
+            this.bwLog.write("[" + dt.format(DateTimeFormatter.ISO_DATE_TIME) + "] " + s + "\n");
+            this.bwLog.flush();
+        } catch (IOException e){
+            System.out.println("Non puidemos escribir no ficheiro de log");
+        }
+    }
+
+    public void onButtonRestartClick (ActionEvent actionEvent) throws java.io.IOException{
         inicializaPartida();
     }
 
