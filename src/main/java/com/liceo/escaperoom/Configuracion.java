@@ -2,9 +2,13 @@ package com.liceo.escaperoom;
 import java.util.Random;
 
 public class Configuracion {
-    final int MAX_NUM = 100;
-    final int MIN_NUM = 1;
-    final int MAX_ATTEMPTS = 6;
+    public final static int MAX_NUM = 100;
+    public final static int MIN_NUM = 1;
+    public final static int MAX_ATTEMPTS = 6;
+
+    public final static String MAX_NUM_P = "max_num";
+    public final static String MIN_NUM_P = "min_num";
+    public final static String MAX_ATTEMPTS_P = "attempts";
 
     private int number;
     private int maxNumber;
@@ -16,6 +20,8 @@ public class Configuracion {
         this.maxNumber = maxNumber;
         this.minNumber = minNumber;
         this.maxAttempts = maxAttempts;
+        this.attempts = this.maxAttempts;
+        this.regenerateNumber();
     }
 
     public Configuracion() {

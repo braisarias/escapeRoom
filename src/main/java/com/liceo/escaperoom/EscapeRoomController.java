@@ -7,13 +7,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
+import java.util.Properties;
 
 public class EscapeRoomController {
     @FXML
@@ -36,7 +39,37 @@ public class EscapeRoomController {
     private BufferedWriter bwLog;
 
     private void generateConfiguration(){
-        this.conf = new Configuracion();
+        Properties confProp = new Properties();
+        try {
+            InputStream confFile = Files.newInputStream(Paths.get("escapeRoom.properties"));
+            confProp.load(confFile);
+        } catch (IOException e) {
+            this.conf = new Configuracion();
+            return;
+        }
+        int min = Configuracion.MIN_NUM;
+        int max = Configuracion.MAX_NUM;
+        int attempts = Configuracion.MAX_ATTEMPTS;
+
+        try {
+            min = Integer.parseInt(confProp.getProperty(Configuracion.MIN_NUM_P));
+        } catch (NumberFormatException e){
+
+        }
+        try {
+            max = Integer.parseInt(confProp.getProperty(Configuracion.MAX_NUM_P));
+        } catch (NumberFormatException e){
+
+        }
+        try{
+            attempts = Integer.parseInt(confProp.getProperty(Configuracion.MAX_ATTEMPTS_P));
+        } catch (NumberFormatException e){
+
+        }
+
+
+
+        this.conf = new Configuracion(max, min, attempts);
     }
 
     private void refreshInfo(){
